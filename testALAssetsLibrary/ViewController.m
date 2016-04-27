@@ -146,8 +146,7 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    //把最后一个 |相册流| 不显示出来
-    return self.groupMutArr.count-1;
+    return self.groupMutArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
