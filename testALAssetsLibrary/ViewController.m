@@ -44,6 +44,8 @@
 /**ALAssetsLibrary*/
 @property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 
+@property (nonatomic, strong) NSMutableArray *groupName;
+
 @end
 
 
@@ -59,8 +61,9 @@
     self.navigationItem.title = @"testALAssetsLibrary";
     
     self.assetsLibrary = [[ALAssetsLibrary alloc]init];
-    self.groupMutArr = [[NSMutableArray alloc]initWithCapacity:1];
-    self.imageArr = [[NSMutableArray alloc]initWithCapacity:1];
+    self.groupMutArr = [NSMutableArray array];
+    self.imageArr = [NSMutableArray array];
+    self.groupName = [NSMutableArray array];
     
     [_assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         if (group)
@@ -68,7 +71,8 @@
             //NSLog(@"*****相册个数***%@",self.groupMutArr);
             [self.groupMutArr addObject:group];
             //每个相册的名字
-            //NSString *groupName = [group valueForProperty:ALAssetsGroupPropertyName];
+            NSString *groupName = [group valueForProperty:ALAssetsGroupPropertyName];
+            [self.groupName addObject:groupName];
             
             for (ALAssetsGroup *_group in self.groupMutArr)
             {
@@ -142,7 +146,8 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return self.groupMutArr.count;
+    //把最后一个 |相册流| 不显示出来
+    return self.groupMutArr.count-1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -171,10 +176,14 @@
     {
         header *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:headerId forIndexPath:indexPath];
         
-        ALAssetsGroup *group1 = [self.groupMutArr objectAtIndex:indexPath.section];
-        NSString *groupName = [group1 valueForProperty:ALAssetsGroupPropertyName];
-        NSLog(@"每个相册的名字...%@",groupName);
-        headerView.headerLabel.text = groupName;
+//        ALAssetsGroup *group = [self.groupMutArr objectAtIndex:indexPath.section];
+//        NSLog(@"在header里groupMutArr：%lu",(unsigned long)self.groupMutArr.count);
+//        
+//        NSString *groupName = [group valueForProperty:ALAssetsGroupPropertyName];
+//        NSLog(@"在header里groupName：%lu",(unsigned long)self.groupName.count);
+        
+        headerView.headerLabel.text = [self.groupName objectAtIndex:indexPath.section];
+        NSLog(@"%@",self.groupName);
         
         headerView.backgroundColor = [UIColor lightGrayColor];//section的背景颜色
         reusableView = headerView;
@@ -183,12 +192,15 @@
     return reusableView;
 }
 
+
+/**
+ *  用代码实现header时，此方法必须要实现，不然显示不出来
+ */
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    if (section>0) {
-        return CGSizeMake(0, 44);
-    }
-    
+
+    return CGSizeMake(0, 44);
+
     return CGSizeZero;
 }
 
