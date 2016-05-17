@@ -1,3 +1,3 @@
 testALAssetsLibrary
 
-![](https://raw.githubusercontent.com/wangyingbo/testALAssetsLibrary/master/Simulator%20Screen%20Shot.png)
+![截图](https://raw.githubusercontent.com/wangyingbo/testALAssetsLibrary/master/image.png)
