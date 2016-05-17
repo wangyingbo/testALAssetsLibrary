@@ -182,7 +182,7 @@
 //        NSLog(@"在header里groupName：%lu",(unsigned long)self.groupName.count);
         
         headerView.headerLabel.text = [self.groupName objectAtIndex:indexPath.section];
-        NSLog(@"%@",self.groupName);
+        //NSLog(@"%@",self.groupName);
         
         headerView.backgroundColor = [UIColor lightGrayColor];//section的背景颜色
         reusableView = headerView;
